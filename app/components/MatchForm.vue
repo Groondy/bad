@@ -64,14 +64,16 @@ function submit() {
 
 <template>
   <form class="match-form" novalidate @submit.prevent="submit">
-    <fieldset class="match-form__type">
+    <fieldset>
       <legend>Type de match</legend>
-      <label class="match-form__choice"
-        ><input v-model="type" type="radio" value="single" /> Simple</label
-      >
-      <label class="match-form__choice"
-        ><input v-model="type" type="radio" value="double" /> Double</label
-      >
+      <div class="match-form__segmented">
+        <label class="match-form__choice"
+          ><input v-model="type" type="radio" value="single" /> Simple</label
+        >
+        <label class="match-form__choice"
+          ><input v-model="type" type="radio" value="double" /> Double</label
+        >
+      </div>
     </fieldset>
 
     <div class="match-form__sides">
@@ -141,21 +143,51 @@ function submit() {
   gap: $space-4;
 }
 
-.match-form__type {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $space-4;
+.match-form__segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-1;
+  padding: $space-1;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
 }
 
 .match-form__choice {
-  display: inline-flex;
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: $space-2;
-  min-height: 44px;
+  justify-content: center;
+  min-height: 48px;
+  font-family: $font-display;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $color-muted;
+  border-radius: calc(#{$radius} - #{$space-1});
+  cursor: pointer;
 
   input {
-    width: auto;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     min-height: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &:has(input:checked) {
+    color: $color-accent;
+    background: $color-primary;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px $color-accent;
   }
 }
 

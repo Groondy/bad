@@ -99,8 +99,11 @@ function deltaClass(delta: number): string {
 }
 
 .history__score {
-  font-size: 1.1rem;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  color: $color-primary;
 }
 
 .history__delta {

@@ -21,7 +21,14 @@ defineProps<{
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="row.id">
-          <td class="ranking__rank">{{ row.rank }}</td>
+          <td class="ranking__rank">
+            <span
+              class="ranking__medal"
+              :class="{ [`ranking__medal--${row.rank}`]: row.rank <= 3 }"
+            >
+              {{ row.rank }}
+            </span>
+          </td>
           <td>
             <NuxtLink :to="`/joueurs/${row.id}`">{{ row.firstName }} {{ row.lastName }}</NuxtLink>
           </td>
@@ -63,18 +70,46 @@ tbody tr:last-child td {
 }
 
 .ranking__rank {
-  width: 2.5rem;
+  width: 3rem;
+}
+
+.ranking__medal {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  font-family: $font-display;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: $color-muted;
+  font-variant-numeric: tabular-nums;
+  color: $color-primary;
+  background: $color-bg;
+  border-radius: 50%;
+
+  &--1 {
+    background: $color-gold;
+  }
+
+  &--2 {
+    background: $color-silver;
+  }
+
+  &--3 {
+    background: $color-bronze;
+  }
 }
 
 .ranking__number {
   text-align: right;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .ranking__elo {
+  font-family: $font-display;
+  font-size: 1.35rem;
   font-weight: 700;
+  color: $color-primary;
 }
 
 .ranking__optional {

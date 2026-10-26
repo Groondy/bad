@@ -27,9 +27,13 @@ function canEdit(match: MatchView): boolean {
     <p v-if="error" class="alert">Joueur introuvable.</p>
     <template v-else-if="profile">
       <h1>{{ profile.firstName }} {{ profile.lastName }}</h1>
+      <p class="player__elo">
+        <span class="player__elo-value">{{ profile.elo }}</span> Elo
+      </p>
       <p class="muted">
-        {{ profile.groupName }} · <strong>{{ profile.elo }}</strong> Elo ·
-        {{ profile.history.length }} match{{ profile.history.length > 1 ? 's' : '' }}
+        {{ profile.groupName }} · {{ profile.history.length }} match{{
+          profile.history.length > 1 ? 's' : ''
+        }}
       </p>
       <h2>Historique</h2>
       <p v-if="profile.history.length === 0" class="muted">Aucun match joué.</p>
@@ -41,3 +45,20 @@ function canEdit(match: MatchView): boolean {
     </template>
   </section>
 </template>
+
+<style scoped lang="scss">
+.player__elo {
+  margin: 0 0 $space-1;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $color-primary;
+}
+
+.player__elo-value {
+  font-size: 3rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+</style>
