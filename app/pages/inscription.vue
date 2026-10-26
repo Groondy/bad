@@ -29,7 +29,7 @@ async function submit() {
 </script>
 
 <template>
-  <section>
+  <section class="auth">
     <h1>Inscription</h1>
     <form class="form card" novalidate @submit.prevent="submit">
       <FormField label="Email" :error="errors.email">
