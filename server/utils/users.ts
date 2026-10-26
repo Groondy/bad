@@ -135,6 +135,11 @@ export function updateUserAdmin(
 export function anonymizeUser(db: Db, actorId: number, targetId: number): void {
   if (actorId === targetId)
     throw new ServiceError(400, 'Tu ne peux pas supprimer ton propre compte')
+  anonymizeAccount(db, targetId)
+}
+
+/** Anonymise le compte en conservant ses matchs, pour ne pas fausser l'Elo des autres joueurs. */
+export function anonymizeAccount(db: Db, targetId: number): void {
   const row = db
     .update(users)
     .set({

@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { matchPlayers, users } from '../server/database/schema'
 import { listGroups, renameGroup } from '../server/utils/groups'
 import {
+  anonymizeAccount,
   anonymizeUser,
   findLoginAccount,
   getActiveUser,
@@ -95,6 +96,14 @@ describe('profil', () => {
       400,
       'groupId',
     )
+  })
+
+  it('supprime son propre compte, y compris un admin', () => {
+    const db = createTestDb()
+    const id = insertUser(db, { role: 'admin' })
+    anonymizeAccount(db, id)
+    expect(getActiveUser(db, id)).toBeUndefined()
+    expectServiceError(() => anonymizeAccount(db, id), 404)
   })
 
   it("refuse de changer le mot de passe d'un compte supprimé", () => {

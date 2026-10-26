@@ -57,6 +57,29 @@ async function savePassword() {
     passwordPending.value = false
   }
 }
+
+const deletion = reactive({ password: '' })
+const deletionErrors = ref<Record<string, string>>({})
+const deletionMessage = ref('')
+const deletionPending = ref(false)
+
+async function deleteAccount() {
+  if (!confirm('Supprimer définitivement ton compte ? Tes matchs resteront, sous un nom anonyme.'))
+    return
+  deletionPending.value = true
+  deletionErrors.value = {}
+  deletionMessage.value = ''
+  try {
+    await $fetch('/api/me', { method: 'DELETE', body: deletion })
+    await refreshSession()
+    await navigateTo('/')
+  } catch (error) {
+    deletionErrors.value = getFieldErrors(error)
+    deletionMessage.value = getErrorMessage(error)
+  } finally {
+    deletionPending.value = false
+  }
+}
 </script>
 
 <template>
@@ -109,6 +132,23 @@ async function savePassword() {
       </p>
       <button type="submit" class="btn btn--primary" :disabled="passwordPending">
         Changer le mot de passe
+      </button>
+    </form>
+
+    <h2>Supprimer mon compte</h2>
+    <form class="form card" novalidate @submit.prevent="deleteAccount">
+      <p class="muted">
+        Ton nom et ton email sont effacés. Tes matchs restent dans l'historique sous « Joueur
+        supprimé » pour ne pas fausser l'Elo des autres.
+      </p>
+      <FormField label="Mot de passe" :error="deletionErrors.password">
+        <input v-model="deletion.password" type="password" autocomplete="current-password" />
+      </FormField>
+      <p v-if="deletionMessage && Object.keys(deletionErrors).length === 0" class="alert">
+        {{ deletionMessage }}
+      </p>
+      <button type="submit" class="btn btn--danger" :disabled="deletionPending">
+        Supprimer mon compte
       </button>
     </form>
   </section>

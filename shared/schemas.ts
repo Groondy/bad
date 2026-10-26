@@ -36,6 +36,10 @@ export const passwordChangeSchema = z.object({
   newPassword: password,
 })
 
+export const accountDeleteSchema = z.object({
+  password: z.string().min(1, 'Mot de passe requis'),
+})
+
 export const matchInputSchema = z
   .object({
     type: z.enum(['single', 'double'], { error: 'Type de match invalide' }),
