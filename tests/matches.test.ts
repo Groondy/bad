@@ -1,7 +1,13 @@
 import { eq } from 'drizzle-orm'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { matches, matchPlayers, users } from '../server/database/schema'
-import { createMatch, deleteMatch, listMatchViews, updateMatch } from '../server/utils/matches'
+import {
+  assertCanEditMatch,
+  createMatch,
+  deleteMatch,
+  listMatchViews,
+  updateMatch,
+} from '../server/utils/matches'
 import type { MatchInput } from '../shared/schemas'
 import { createTestDb, insertUser } from './helpers/db'
 import { expectServiceError } from './helpers/errors'
@@ -116,6 +122,36 @@ describe('service des matchs', () => {
 
     it('renvoie 404 pour un match inexistant', () => {
       expectServiceError(() => deleteMatch(db, 9999), 404)
+    })
+  })
+
+  describe('assertCanEditMatch', () => {
+    it('autorise un participant, même s’il n’a pas saisi le match', () => {
+      const id = createMatch(db, single(), alice)
+      expect(() => assertCanEditMatch(db, id, { id: bob, role: 'player' })).not.toThrow()
+    })
+
+    it('refuse un joueur qui ne participe pas au match', () => {
+      const id = createMatch(db, single(), alice)
+      expectServiceError(() => assertCanEditMatch(db, id, { id: carol, role: 'player' }), 403)
+    })
+
+    it('autorise un admin sur n’importe quel match', () => {
+      const id = createMatch(db, single(), alice)
+      expect(() => assertCanEditMatch(db, id, { id: carol, role: 'admin' })).not.toThrow()
+    })
+
+    it('refuse qu’un joueur se retire du match en le modifiant', () => {
+      const id = createMatch(db, single(), alice)
+      expectServiceError(
+        () => assertCanEditMatch(db, id, { id: alice, role: 'player' }, single({ sideA: [carol] })),
+        400,
+        'sideA',
+      )
+    })
+
+    it('renvoie 404 pour un match inconnu', () => {
+      expectServiceError(() => assertCanEditMatch(db, 999, { id: alice, role: 'player' }), 404)
     })
   })
 

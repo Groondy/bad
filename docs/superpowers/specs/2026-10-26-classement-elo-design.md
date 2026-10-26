@@ -144,7 +144,8 @@ Elle est appelée après chaque création, modification ou suppression de match,
 ### Joueur connecté
 
 - `/matchs/nouveau` — saisie mobile-first : type (simple/double) → partenaire (double) → adversaire(s) → les deux scores → date. Le saisissant est forcément l'un des joueurs. La sélection se fait par recherche de nom, avec les membres de son groupe proposés en premier. Après validation, un récapitulatif affiche les variations d'Elo.
-- `/profil` — modifier prénom, nom, groupe et mot de passe (ancien mot de passe exigé).
+- `/profil` — modifier prénom, nom, groupe et mot de passe (ancien mot de passe exigé) ; supprimer son compte (mot de passe exigé).
+- `/joueurs/[id]` — un participant d'un match peut le modifier (joueurs, scores, date) ou le supprimer, sans limite de temps.
 
 ### Admin
 
@@ -181,7 +182,7 @@ Barre en haut sur desktop, barre d'onglets en bas sur mobile (Classement, Saisir
 ## Règles de validation (serveur, zod)
 
 - **Inscription** : email valide et non utilisé (comparaison insensible à la casse), prénom et nom non vides, mot de passe ≥ 8 caractères, groupe existant.
-- **Match** : 1 joueur par côté en simple, 2 en double ; tous les joueurs distincts, existants et non anonymisés ; le saisissant fait partie du match (sauf pour un admin qui corrige via `/api/admin`) ; scores entiers ≥ 0 et différents ; date non future.
+- **Match** : 1 joueur par côté en simple, 2 en double ; tous les joueurs distincts, existants et non anonymisés ; le saisissant fait partie du match, et un joueur qui modifie un match doit y rester (un admin n'a pas cette contrainte) ; scores entiers ≥ 0 et différents ; date non future.
 - **Admin** : un middleware serveur refuse toute route `/api/admin/*` à un non-admin. Un admin ne peut pas retirer son propre rôle admin ni anonymiser son propre compte, pour qu'il reste toujours au moins un admin.
 - **Mots de passe** : hachés (scrypt, nuxt-auth-utils), jamais renvoyés au client.
 
@@ -191,7 +192,7 @@ Le compte qui s'inscrit avec l'email défini dans `ADMIN_EMAIL` reçoit le rôle
 
 ## Suppression de compte
 
-Un compte supprimé est anonymisé : prénom/nom remplacés par « Joueur supprimé », email remplacé par une valeur unique non utilisable, mot de passe effacé, `deletedAt` renseigné. Ses matchs restent pour ne pas fausser l'Elo des autres.
+Un joueur peut supprimer son propre compte depuis `/profil`, un admin celui d'un autre joueur. Un compte supprimé est anonymisé : prénom/nom remplacés par « Joueur supprimé », email remplacé par une valeur unique non utilisable, mot de passe effacé, `deletedAt` renseigné. Ses matchs restent pour ne pas fausser l'Elo des autres.
 
 ## Gestion des erreurs
 
@@ -201,7 +202,7 @@ Un compte supprimé est anonymisé : prénom/nom remplacés par « Joueur suppri
 
 ## Limite connue, acceptée
 
-N'importe quel membre connecté peut saisir un match contre n'importe qui. Garde-fous : historique visible sur chaque profil, `createdBy` enregistré, correction par un admin.
+N'importe quel membre connecté peut saisir un match contre n'importe qui. Garde-fous : historique visible sur chaque profil, `createdBy` enregistré, correction par un participant ou un admin.
 
 ## Structure du projet
 

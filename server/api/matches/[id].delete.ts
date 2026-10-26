@@ -1,6 +1,10 @@
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
+  const actor = await requireActiveUser(event)
   const id = parseId(event)
-  runService(() => deleteMatch(useDb(), id))
+  const db = useDb()
+  runService(() => {
+    assertCanEditMatch(db, id, actor)
+    deleteMatch(db, id)
+  })
   return { ok: true }
 })

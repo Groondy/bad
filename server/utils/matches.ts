@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm'
 import { matches, matchPlayers, users } from '../database/schema'
-import type { MatchView, Participant } from '../../shared/models'
+import type { MatchView, Participant, SessionUser } from '../../shared/models'
 import type { MatchInput } from '../../shared/schemas'
 import type { Db } from './db'
 import { ServiceError } from './errors'
@@ -51,6 +51,30 @@ export function createMatch(db: Db, input: MatchInput, actorId: number): number 
     recomputeAll(tx)
     return id
   })
+}
+
+/**
+ * Un joueur peut modifier ou supprimer un match auquel il participe, un admin n'importe lequel.
+ * Avec `input` (modification), un joueur doit rester dans le match, comme à la création.
+ */
+export function assertCanEditMatch(
+  db: Db,
+  matchId: number,
+  actor: Pick<SessionUser, 'id' | 'role'>,
+  input?: MatchInput,
+): void {
+  const existing = db.select({ id: matches.id }).from(matches).where(eq(matches.id, matchId)).get()
+  if (!existing) throw new ServiceError(404, 'Match introuvable')
+  if (actor.role === 'admin') return
+  const participant = db
+    .select({ userId: matchPlayers.userId })
+    .from(matchPlayers)
+    .where(and(eq(matchPlayers.matchId, matchId), eq(matchPlayers.userId, actor.id)))
+    .get()
+  if (!participant) throw new ServiceError(403, 'Tu ne participes pas à ce match')
+  if (input && ![...input.sideA, ...input.sideB].includes(actor.id)) {
+    throw new ServiceError(400, 'Tu dois faire partie du match', 'sideA')
+  }
 }
 
 export function updateMatch(db: Db, matchId: number, input: MatchInput): void {
