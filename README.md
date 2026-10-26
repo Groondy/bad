@@ -16,20 +16,20 @@ Le compte qui s'inscrit avec `ADMIN_EMAIL` devient admin. Il peut ensuite promou
 
 TypeScript est épinglé en `^6` : TypeScript 7 casse actuellement typescript-eslint et vue-tsc.
 
-| Commande | Rôle |
-|---|---|
-| `pnpm test` | Tests Vitest (Elo, recalcul, services) |
-| `pnpm lint` / `pnpm format` | ESLint / Prettier |
-| `pnpm typecheck` | Vérification TypeScript |
-| `pnpm db:generate` | Génère une migration après modification de `server/database/schema.ts` |
+| Commande                    | Rôle                                                                   |
+| --------------------------- | ---------------------------------------------------------------------- |
+| `pnpm test`                 | Tests Vitest (Elo, recalcul, services)                                 |
+| `pnpm lint` / `pnpm format` | ESLint / Prettier                                                      |
+| `pnpm typecheck`            | Vérification TypeScript                                                |
+| `pnpm db:generate`          | Génère une migration après modification de `server/database/schema.ts` |
 
 ## Variables d'environnement
 
-| Variable | Rôle |
-|---|---|
+| Variable                | Rôle                                                                   |
+| ----------------------- | ---------------------------------------------------------------------- |
 | `NUXT_SESSION_PASSWORD` | Secret des sessions, 32 caractères minimum (obligatoire en production) |
-| `ADMIN_EMAIL` | Email du premier admin |
-| `DATABASE_PATH` | Fichier SQLite (`data/bad.db` en dev, `/data/bad.db` dans l'image) |
+| `ADMIN_EMAIL`           | Email du premier admin                                                 |
+| `DATABASE_PATH`         | Fichier SQLite (`data/bad.db` en dev, `/data/bad.db` dans l'image)     |
 
 ## Docker
 

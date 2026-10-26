@@ -5,7 +5,9 @@ import type { MatchInput } from '#shared/schemas'
 definePageMeta({ middleware: 'admin' })
 useHead({ title: 'Admin · Matchs' })
 
-const { data: matches, refresh } = await useFetch<MatchView[]>('/api/admin/matches', { default: () => [] })
+const { data: matches, refresh } = await useFetch<MatchView[]>('/api/admin/matches', {
+  default: () => [],
+})
 const { data: players } = await useFetch<PlayerOption[]>('/api/players', { default: () => [] })
 
 const editingId = ref<number | null>(null)
@@ -56,7 +58,12 @@ async function save(id: number, input: MatchInput) {
 }
 
 async function remove(match: MatchView) {
-  if (!confirm(`Supprimer ce match (${match.scoreA} – ${match.scoreB}) ? Le classement sera recalculé.`)) return
+  if (
+    !confirm(
+      `Supprimer ce match (${match.scoreA} – ${match.scoreB}) ? Le classement sera recalculé.`,
+    )
+  )
+    return
   message.value = ''
   try {
     await $fetch(`/api/admin/matches/${match.id}`, { method: 'DELETE' })

@@ -2,7 +2,10 @@ import type { H3Event } from 'h3'
 import { z } from 'zod'
 import { ServiceError } from './errors'
 
-export async function parseBody<T extends z.ZodType>(event: H3Event, schema: T): Promise<z.output<T>> {
+export async function parseBody<T extends z.ZodType>(
+  event: H3Event,
+  schema: T,
+): Promise<z.output<T>> {
   const result = schema.safeParse(await readBody(event))
   if (!result.success) {
     throw createError({
@@ -16,7 +19,8 @@ export async function parseBody<T extends z.ZodType>(event: H3Event, schema: T):
 
 export function parseId(event: H3Event): number {
   const id = Number(getRouterParam(event, 'id'))
-  if (!Number.isInteger(id) || id <= 0) throw createError({ statusCode: 404, message: 'Introuvable' })
+  if (!Number.isInteger(id) || id <= 0)
+    throw createError({ statusCode: 404, message: 'Introuvable' })
   return id
 }
 

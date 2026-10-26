@@ -30,14 +30,20 @@ function deltaClass(delta: number): string {
         {{ formatDate(match.playedAt) }} · {{ match.type === 'single' ? 'Simple' : 'Double' }}
       </div>
       <div class="history__line">
-        <span class="history__side" :class="{ 'history__side--winner': match.scoreA > match.scoreB }">
+        <span
+          class="history__side"
+          :class="{ 'history__side--winner': match.scoreA > match.scoreB }"
+        >
           <template v-for="(p, index) in match.sideA" :key="p.id">
             <template v-if="index > 0"> &amp; </template>
             <NuxtLink :to="`/joueurs/${p.id}`">{{ p.firstName }} {{ p.lastName }}</NuxtLink>
           </template>
         </span>
         <strong class="history__score">{{ match.scoreA }} – {{ match.scoreB }}</strong>
-        <span class="history__side" :class="{ 'history__side--winner': match.scoreB > match.scoreA }">
+        <span
+          class="history__side"
+          :class="{ 'history__side--winner': match.scoreB > match.scoreA }"
+        >
           <template v-for="(p, index) in match.sideB" :key="p.id">
             <template v-if="index > 0"> &amp; </template>
             <NuxtLink :to="`/joueurs/${p.id}`">{{ p.firstName }} {{ p.lastName }}</NuxtLink>
@@ -50,9 +56,13 @@ function deltaClass(delta: number): string {
         </span>
       </div>
       <div v-else class="history__delta">
-        <span :class="deltaClass(sideDelta(match.sideA))">{{ formatDelta(sideDelta(match.sideA)) }}</span>
+        <span :class="deltaClass(sideDelta(match.sideA))">{{
+          formatDelta(sideDelta(match.sideA))
+        }}</span>
         /
-        <span :class="deltaClass(sideDelta(match.sideB))">{{ formatDelta(sideDelta(match.sideB)) }}</span>
+        <span :class="deltaClass(sideDelta(match.sideB))">{{
+          formatDelta(sideDelta(match.sideB))
+        }}</span>
       </div>
       <slot name="actions" :match="match" />
     </li>

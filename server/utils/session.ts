@@ -14,6 +14,7 @@ export async function requireActiveUser(event: H3Event): Promise<SessionUser> {
 
 export async function requireAdmin(event: H3Event): Promise<SessionUser> {
   const user = await requireActiveUser(event)
-  if (user.role !== 'admin') throw createError({ statusCode: 403, message: 'Accès réservé aux admins' })
+  if (user.role !== 'admin')
+    throw createError({ statusCode: 403, message: 'Accès réservé aux admins' })
   return user
 }

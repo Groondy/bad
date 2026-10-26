@@ -55,7 +55,11 @@ export function createMatch(db: Db, input: MatchInput, actorId: number): number 
 
 export function updateMatch(db: Db, matchId: number, input: MatchInput): void {
   db.transaction((tx) => {
-    const existing = tx.select({ id: matches.id }).from(matches).where(eq(matches.id, matchId)).get()
+    const existing = tx
+      .select({ id: matches.id })
+      .from(matches)
+      .where(eq(matches.id, matchId))
+      .get()
     if (!existing) throw new ServiceError(404, 'Match introuvable')
     const currentIds = tx
       .select({ userId: matchPlayers.userId })
@@ -65,7 +69,12 @@ export function updateMatch(db: Db, matchId: number, input: MatchInput): void {
       .map((row) => row.userId)
     assertPlayersAllowed(tx, [...input.sideA, ...input.sideB], currentIds)
     tx.update(matches)
-      .set({ type: input.type, scoreA: input.scoreA, scoreB: input.scoreB, playedAt: input.playedAt })
+      .set({
+        type: input.type,
+        scoreA: input.scoreA,
+        scoreB: input.scoreB,
+        playedAt: input.playedAt,
+      })
       .where(eq(matches.id, matchId))
       .run()
     tx.delete(matchPlayers).where(eq(matchPlayers.matchId, matchId)).run()
@@ -77,13 +86,20 @@ export function updateMatch(db: Db, matchId: number, input: MatchInput): void {
 export function deleteMatch(db: Db, matchId: number): void {
   db.transaction((tx) => {
     tx.delete(matchPlayers).where(eq(matchPlayers.matchId, matchId)).run()
-    const deleted = tx.delete(matches).where(eq(matches.id, matchId)).returning({ id: matches.id }).get()
+    const deleted = tx
+      .delete(matches)
+      .where(eq(matches.id, matchId))
+      .returning({ id: matches.id })
+      .get()
     if (!deleted) throw new ServiceError(404, 'Match introuvable')
     recomputeAll(tx)
   })
 }
 
-export function listMatchViews(db: Db, filter: { matchId?: number; userId?: number } = {}): MatchView[] {
+export function listMatchViews(
+  db: Db,
+  filter: { matchId?: number; userId?: number } = {},
+): MatchView[] {
   let ids: number[] | undefined
   if (filter.matchId !== undefined) {
     ids = [filter.matchId]
@@ -117,7 +133,12 @@ export function listMatchViews(db: Db, filter: { matchId?: number; userId?: numb
     })
     .from(matchPlayers)
     .innerJoin(users, eq(users.id, matchPlayers.userId))
-    .where(inArray(matchPlayers.matchId, matchRows.map((m) => m.id)))
+    .where(
+      inArray(
+        matchPlayers.matchId,
+        matchRows.map((m) => m.id),
+      ),
+    )
     .orderBy(asc(users.firstName), asc(users.lastName))
     .all()
 

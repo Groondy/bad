@@ -76,27 +76,40 @@ async function savePassword() {
       </FormField>
       <FormField label="Ma séance" :error="infoErrors.groupId">
         <select v-model.number="info.groupId">
-          <option v-for="group in groups" :key="group.id" :value="group.id">{{ group.name }}</option>
+          <option v-for="group in groups" :key="group.id" :value="group.id">
+            {{ group.name }}
+          </option>
         </select>
       </FormField>
       <p v-if="infoSuccess" class="success">{{ infoSuccess }}</p>
-      <p v-if="infoMessage && Object.keys(infoErrors).length === 0" class="alert">{{ infoMessage }}</p>
+      <p v-if="infoMessage && Object.keys(infoErrors).length === 0" class="alert">
+        {{ infoMessage }}
+      </p>
       <button type="submit" class="btn btn--primary" :disabled="infoPending">Enregistrer</button>
     </form>
 
     <h2>Changer mon mot de passe</h2>
     <form class="form card" novalidate @submit.prevent="savePassword">
       <FormField label="Mot de passe actuel" :error="passwordErrors.currentPassword">
-        <input v-model="passwords.currentPassword" type="password" autocomplete="current-password" />
+        <input
+          v-model="passwords.currentPassword"
+          type="password"
+          autocomplete="current-password"
+        />
       </FormField>
-      <FormField label="Nouveau mot de passe (8 caractères minimum)" :error="passwordErrors.newPassword">
+      <FormField
+        label="Nouveau mot de passe (8 caractères minimum)"
+        :error="passwordErrors.newPassword"
+      >
         <input v-model="passwords.newPassword" type="password" autocomplete="new-password" />
       </FormField>
       <p v-if="passwordSuccess" class="success">{{ passwordSuccess }}</p>
       <p v-if="passwordMessage && Object.keys(passwordErrors).length === 0" class="alert">
         {{ passwordMessage }}
       </p>
-      <button type="submit" class="btn btn--primary" :disabled="passwordPending">Changer le mot de passe</button>
+      <button type="submit" class="btn btn--primary" :disabled="passwordPending">
+        Changer le mot de passe
+      </button>
     </form>
   </section>
 </template>

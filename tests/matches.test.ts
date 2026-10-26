@@ -123,7 +123,14 @@ describe('service des matchs', () => {
     it('renvoie un match avec les joueurs, les scores et les deltas', () => {
       const id = createMatch(
         db,
-        { type: 'double', sideA: [alice, carol], sideB: [bob, dave], scoreA: 21, scoreB: 17, playedAt: '2026-10-01' },
+        {
+          type: 'double',
+          sideA: [alice, carol],
+          sideB: [bob, dave],
+          scoreA: 21,
+          scoreB: 17,
+          playedAt: '2026-10-01',
+        },
         alice,
       )
       const [view] = listMatchViews(db, { matchId: id })
@@ -133,7 +140,7 @@ describe('service des matchs', () => {
       expect(view?.sideA.map((p) => p.eloBefore)).toEqual([1000, 1000])
     })
 
-    it("filtre par joueur, du plus récent au plus ancien", () => {
+    it('filtre par joueur, du plus récent au plus ancien', () => {
       createMatch(db, single({ playedAt: '2026-10-01' }), alice)
       createMatch(db, single({ sideA: [carol], sideB: [dave] }), carol)
       createMatch(db, single({ playedAt: '2026-10-05' }), alice)

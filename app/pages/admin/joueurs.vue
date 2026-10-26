@@ -5,7 +5,9 @@ definePageMeta({ middleware: 'admin' })
 useHead({ title: 'Admin · Joueurs' })
 
 const { user } = useUserSession()
-const { data: users, refresh } = await useFetch<AdminUserRow[]>('/api/admin/users', { default: () => [] })
+const { data: users, refresh } = await useFetch<AdminUserRow[]>('/api/admin/users', {
+  default: () => [],
+})
 const { data: groups } = await useFetch<Group[]>('/api/groups', { default: () => [] })
 
 const message = ref('')
@@ -43,16 +45,27 @@ function resetPassword(target: AdminUserRow) {
   )
   if (!password) return
   return run(
-    () => $fetch<unknown>(`/api/admin/users/${target.id}/reset-password`, { method: 'POST', body: { password } }),
+    () =>
+      $fetch<unknown>(`/api/admin/users/${target.id}/reset-password`, {
+        method: 'POST',
+        body: { password },
+      }),
     `Mot de passe de ${target.firstName} réinitialisé. Transmets-le-lui et demande-lui de le changer.`,
   )
 }
 
 function remove(target: AdminUserRow) {
-  if (!confirm(`Supprimer le compte de ${target.firstName} ${target.lastName} ? Ses matchs seront conservés de façon anonyme.`)) {
+  if (
+    !confirm(
+      `Supprimer le compte de ${target.firstName} ${target.lastName} ? Ses matchs seront conservés de façon anonyme.`,
+    )
+  ) {
     return
   }
-  return run(() => $fetch<unknown>(`/api/admin/users/${target.id}`, { method: 'DELETE' }), 'Compte supprimé.')
+  return run(
+    () => $fetch<unknown>(`/api/admin/users/${target.id}`, { method: 'DELETE' }),
+    'Compte supprimé.',
+  )
 }
 </script>
 
@@ -74,7 +87,9 @@ function remove(target: AdminUserRow) {
               :value="target.groupId"
               @change="changeGroup(target, Number(($event.target as HTMLSelectElement).value))"
             >
-              <option v-for="group in groups" :key="group.id" :value="group.id">{{ group.name }}</option>
+              <option v-for="group in groups" :key="group.id" :value="group.id">
+                {{ group.name }}
+              </option>
             </select>
           </FormField>
           <FormField label="Rôle">
@@ -89,8 +104,15 @@ function remove(target: AdminUserRow) {
           </FormField>
         </div>
         <div class="actions">
-          <button type="button" class="btn" @click="resetPassword(target)">Réinitialiser le mot de passe</button>
-          <button v-if="target.id !== user?.id" type="button" class="btn btn--danger" @click="remove(target)">
+          <button type="button" class="btn" @click="resetPassword(target)">
+            Réinitialiser le mot de passe
+          </button>
+          <button
+            v-if="target.id !== user?.id"
+            type="button"
+            class="btn btn--danger"
+            @click="remove(target)"
+          >
             Supprimer
           </button>
         </div>

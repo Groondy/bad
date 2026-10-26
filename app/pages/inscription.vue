@@ -47,7 +47,9 @@ async function submit() {
       <FormField label="Ta séance" :error="errors.groupId">
         <select v-model.number="form.groupId" required>
           <option :value="0" disabled>Choisis ton groupe</option>
-          <option v-for="group in groups" :key="group.id" :value="group.id">{{ group.name }}</option>
+          <option v-for="group in groups" :key="group.id" :value="group.id">
+            {{ group.name }}
+          </option>
         </select>
       </FormField>
       <p v-if="message && Object.keys(errors).length === 0" class="alert">{{ message }}</p>

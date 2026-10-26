@@ -21,7 +21,10 @@ async function save(id: number) {
   message.value = ''
   success.value = ''
   try {
-    await $fetch(`/api/admin/groups/${id}`, { method: 'PATCH', body: { name: names.value[id] ?? '' } })
+    await $fetch(`/api/admin/groups/${id}`, {
+      method: 'PATCH',
+      body: { name: names.value[id] ?? '' },
+    })
     success.value = 'Groupe renommé.'
     await refresh()
   } catch (error) {
@@ -36,7 +39,12 @@ async function save(id: number) {
     <AdminNav />
     <p v-if="success" class="success">{{ success }}</p>
     <p v-if="message" class="alert">{{ message }}</p>
-    <form v-for="group in groups" :key="group.id" class="form card groups__item" @submit.prevent="save(group.id)">
+    <form
+      v-for="group in groups"
+      :key="group.id"
+      class="form card groups__item"
+      @submit.prevent="save(group.id)"
+    >
       <FormField :label="`Groupe ${group.id}`">
         <input v-model="names[group.id]" type="text" maxlength="30" />
       </FormField>

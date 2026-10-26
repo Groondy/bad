@@ -33,12 +33,36 @@ describe('classement', () => {
   })
 
   it('compte victoires et défaites et trie par Elo', () => {
-    insertMatch(db, { sideA: [alice], sideB: [bob], scoreA: 21, scoreB: 15, playedAt: '2026-10-01' })
-    insertMatch(db, { sideA: [alice], sideB: [bob], scoreA: 18, scoreB: 21, playedAt: '2026-10-02' })
-    insertMatch(db, { sideA: [alice], sideB: [carol], scoreA: 21, scoreB: 3, playedAt: '2026-10-03' })
+    insertMatch(db, {
+      sideA: [alice],
+      sideB: [bob],
+      scoreA: 21,
+      scoreB: 15,
+      playedAt: '2026-10-01',
+    })
+    insertMatch(db, {
+      sideA: [alice],
+      sideB: [bob],
+      scoreA: 18,
+      scoreB: 21,
+      playedAt: '2026-10-02',
+    })
+    insertMatch(db, {
+      sideA: [alice],
+      sideB: [carol],
+      scoreA: 21,
+      scoreB: 3,
+      playedAt: '2026-10-03',
+    })
     recomputeAll(db)
     const ranking = getRanking(db)
-    expect(ranking[0]).toMatchObject({ id: alice, matches: 3, wins: 2, losses: 1, groupName: 'Groupe 1' })
+    expect(ranking[0]).toMatchObject({
+      id: alice,
+      matches: 3,
+      wins: 2,
+      losses: 1,
+      groupName: 'Groupe 1',
+    })
     expect(ranking.map((r) => r.elo)).toEqual([...ranking.map((r) => r.elo)].sort((a, b) => b - a))
   })
 
@@ -46,7 +70,11 @@ describe('classement', () => {
     insertMatch(db, { sideA: [alice], sideB: [carol], scoreA: 21, scoreB: 15 })
     insertMatch(db, { sideA: [carol], sideB: [dave], scoreA: 21, scoreB: 15 })
     recomputeAll(db)
-    expect(getRanking(db, 2).map((r) => r.id).sort()).toEqual([carol, dave].sort())
+    expect(
+      getRanking(db, 2)
+        .map((r) => r.id)
+        .sort(),
+    ).toEqual([carol, dave].sort())
   })
 
   it('donne le même rang aux Elo égaux', () => {
@@ -62,8 +90,20 @@ describe('profil public', () => {
     const db = createTestDb()
     const alice = insertUser(db)
     const bob = insertUser(db)
-    insertMatch(db, { sideA: [alice], sideB: [bob], scoreA: 21, scoreB: 15, playedAt: '2026-10-01' })
-    insertMatch(db, { sideA: [bob], sideB: [alice], scoreA: 21, scoreB: 15, playedAt: '2026-10-03' })
+    insertMatch(db, {
+      sideA: [alice],
+      sideB: [bob],
+      scoreA: 21,
+      scoreB: 15,
+      playedAt: '2026-10-01',
+    })
+    insertMatch(db, {
+      sideA: [bob],
+      sideB: [alice],
+      scoreA: 21,
+      scoreB: 15,
+      playedAt: '2026-10-03',
+    })
     recomputeAll(db)
     const profile = getPlayerProfile(db, alice)
     expect(profile).toMatchObject({ id: alice, groupName: 'Groupe 1', deleted: false })

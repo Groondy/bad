@@ -2,7 +2,9 @@
 import type { PlayerProfile } from '#shared/models'
 
 const route = useRoute()
-const { data: profile, error } = await useFetch<PlayerProfile>(() => `/api/players/${route.params.id}`)
+const { data: profile, error } = await useFetch<PlayerProfile>(
+  () => `/api/players/${route.params.id}`,
+)
 
 useHead({
   title: () => (profile.value ? `${profile.value.firstName} ${profile.value.lastName}` : 'Joueur'),

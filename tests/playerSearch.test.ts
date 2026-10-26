@@ -30,7 +30,9 @@ describe('searchPlayers', () => {
   })
 
   it("propose d'abord le groupe préféré, puis l'ordre alphabétique du nom", () => {
-    expect(searchPlayers(players, '', { preferredGroupId: 2 }).map((p) => p.id)).toEqual([3, 2, 4, 1])
+    expect(searchPlayers(players, '', { preferredGroupId: 2 }).map((p) => p.id)).toEqual([
+      3, 2, 4, 1,
+    ])
   })
 
   it('respecte la limite', () => {

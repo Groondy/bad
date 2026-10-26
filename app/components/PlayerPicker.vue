@@ -38,7 +38,13 @@ function select(id: number) {
       <button v-if="!locked" type="button" class="btn" @click="model = undefined">Changer</button>
     </div>
     <template v-else>
-      <input :id="inputId" v-model="query" type="search" placeholder="Rechercher un nom…" autocomplete="off" />
+      <input
+        :id="inputId"
+        v-model="query"
+        type="search"
+        placeholder="Rechercher un nom…"
+        autocomplete="off"
+      />
       <ul class="picker__results">
         <li v-for="player in results" :key="player.id">
           <button type="button" class="picker__option" @click="select(player.id)">

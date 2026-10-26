@@ -23,7 +23,9 @@ export function migrateDb(db: BetterSQLite3Database<typeof schema>): void {
 export function seedGroups(db: Db): void {
   const existing = db.select({ id: schema.groups.id }).from(schema.groups).limit(1).all()
   if (existing.length === 0) {
-    db.insert(schema.groups).values([{ name: 'Groupe 1' }, { name: 'Groupe 2' }]).run()
+    db.insert(schema.groups)
+      .values([{ name: 'Groupe 1' }, { name: 'Groupe 2' }])
+      .run()
   }
 }
 

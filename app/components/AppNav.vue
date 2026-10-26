@@ -20,11 +20,15 @@ async function logout() {
           </NuxtLink>
           <NuxtLink to="/profil" class="topbar__link topbar__link--desktop">Profil</NuxtLink>
           <NuxtLink v-if="isAdmin" to="/admin/matchs" class="topbar__link">Admin</NuxtLink>
-          <button type="button" class="topbar__link topbar__logout" @click="logout">Déconnexion</button>
+          <button type="button" class="topbar__link topbar__logout" @click="logout">
+            Déconnexion
+          </button>
         </template>
         <template v-else>
           <NuxtLink to="/connexion" class="topbar__link">Connexion</NuxtLink>
-          <NuxtLink to="/inscription" class="topbar__link topbar__link--desktop">Inscription</NuxtLink>
+          <NuxtLink to="/inscription" class="topbar__link topbar__link--desktop"
+            >Inscription</NuxtLink
+          >
         </template>
       </nav>
     </div>

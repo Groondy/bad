@@ -41,7 +41,9 @@ function enterAnother() {
       <p class="success">Match enregistré, le classement est à jour.</p>
       <MatchHistory :matches="[created]" :player-id="user?.id" />
       <div class="actions">
-        <button type="button" class="btn btn--primary" @click="enterAnother">Saisir un autre match</button>
+        <button type="button" class="btn btn--primary" @click="enterAnother">
+          Saisir un autre match
+        </button>
         <NuxtLink to="/" class="btn">Voir le classement</NuxtLink>
       </div>
     </template>

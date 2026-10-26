@@ -36,20 +36,34 @@ describe('matchInputSchema', () => {
   })
 
   it('accepte un double valide', () => {
-    const result = matchInputSchema.safeParse({ ...validMatch, type: 'double', sideA: [1, 2], sideB: [3, 4] })
+    const result = matchInputSchema.safeParse({
+      ...validMatch,
+      type: 'double',
+      sideA: [1, 2],
+      sideB: [3, 4],
+    })
     expect(result.success).toBe(true)
   })
 
   it("accepte la date d'aujourd'hui à Paris", () => {
-    expect(matchInputSchema.safeParse({ ...validMatch, playedAt: todayInParis() }).success).toBe(true)
+    expect(matchInputSchema.safeParse({ ...validMatch, playedAt: todayInParis() }).success).toBe(
+      true,
+    )
   })
 
   it('refuse une égalité', () => {
-    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreB: 21 }))).toContain('scoreB')
+    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreB: 21 }))).toContain(
+      'scoreB',
+    )
   })
 
   it('refuse un double incomplet', () => {
-    const result = matchInputSchema.safeParse({ ...validMatch, type: 'double', sideA: [1, 2], sideB: [3] })
+    const result = matchInputSchema.safeParse({
+      ...validMatch,
+      type: 'double',
+      sideA: [1, 2],
+      sideB: [3],
+    })
     expect(errorPaths(result)).toContain('sideA')
   })
 
@@ -63,20 +77,24 @@ describe('matchInputSchema', () => {
   })
 
   it('refuse une date future', () => {
-    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, playedAt: '2999-01-01' }))).toContain(
-      'playedAt',
-    )
+    expect(
+      errorPaths(matchInputSchema.safeParse({ ...validMatch, playedAt: '2999-01-01' })),
+    ).toContain('playedAt')
   })
 
   it('refuse une date inexistante', () => {
-    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, playedAt: '2026-02-31' }))).toContain(
-      'playedAt',
-    )
+    expect(
+      errorPaths(matchInputSchema.safeParse({ ...validMatch, playedAt: '2026-02-31' })),
+    ).toContain('playedAt')
   })
 
   it('refuse un score négatif ou décimal', () => {
-    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreA: -1 }))).toContain('scoreA')
-    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreA: 20.5 }))).toContain('scoreA')
+    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreA: -1 }))).toContain(
+      'scoreA',
+    )
+    expect(errorPaths(matchInputSchema.safeParse({ ...validMatch, scoreA: 20.5 }))).toContain(
+      'scoreA',
+    )
   })
 })
 
@@ -96,7 +114,9 @@ describe('registerSchema', () => {
   })
 
   it('refuse un mot de passe trop court', () => {
-    expect(errorPaths(registerSchema.safeParse({ ...valid, password: 'court' }))).toContain('password')
+    expect(errorPaths(registerSchema.safeParse({ ...valid, password: 'court' }))).toContain(
+      'password',
+    )
   })
 
   it("refuse l'absence de groupe", () => {
@@ -104,7 +124,9 @@ describe('registerSchema', () => {
   })
 
   it('refuse un email invalide', () => {
-    expect(errorPaths(registerSchema.safeParse({ ...valid, email: 'pas-un-email' }))).toContain('email')
+    expect(errorPaths(registerSchema.safeParse({ ...valid, email: 'pas-un-email' }))).toContain(
+      'email',
+    )
   })
 })
 

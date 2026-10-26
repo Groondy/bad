@@ -40,7 +40,9 @@ export function getRanking(db: Db, groupId?: number): RankingRow[] {
     })
     .from(users)
     .innerJoin(groups, eq(groups.id, users.groupId))
-    .where(and(isNull(users.deletedAt), groupId !== undefined ? eq(users.groupId, groupId) : undefined))
+    .where(
+      and(isNull(users.deletedAt), groupId !== undefined ? eq(users.groupId, groupId) : undefined),
+    )
     .all()
 
   const rows = players

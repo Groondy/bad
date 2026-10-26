@@ -7,7 +7,10 @@ const personName = (label: string) =>
 const password = z.string().min(8, 'Au moins 8 caractères').max(200, 'Mot de passe trop long')
 const groupId = z.number({ error: 'Choisis un groupe' }).int().positive('Choisis un groupe')
 const playerId = z.number({ error: 'Joueur requis' }).int().positive('Joueur requis')
-const score = z.number({ error: 'Score requis' }).int('Score entier attendu').min(0, 'Score positif attendu')
+const score = z
+  .number({ error: 'Score requis' })
+  .int('Score entier attendu')
+  .min(0, 'Score positif attendu')
 
 export const registerSchema = z.object({
   email,
@@ -48,18 +51,33 @@ export const matchInputSchema = z
       ctx.addIssue({
         code: 'custom',
         path: ['sideA'],
-        message: match.type === 'single' ? 'Un joueur par équipe en simple' : 'Deux joueurs par équipe en double',
+        message:
+          match.type === 'single'
+            ? 'Un joueur par équipe en simple'
+            : 'Deux joueurs par équipe en double',
       })
     }
     const all = [...match.sideA, ...match.sideB]
     if (new Set(all).size !== all.length) {
-      ctx.addIssue({ code: 'custom', path: ['sideA'], message: 'Un joueur ne peut apparaître qu’une fois' })
+      ctx.addIssue({
+        code: 'custom',
+        path: ['sideA'],
+        message: 'Un joueur ne peut apparaître qu’une fois',
+      })
     }
     if (match.scoreA === match.scoreB) {
-      ctx.addIssue({ code: 'custom', path: ['scoreB'], message: 'Il ne peut pas y avoir d’égalité' })
+      ctx.addIssue({
+        code: 'custom',
+        path: ['scoreB'],
+        message: 'Il ne peut pas y avoir d’égalité',
+      })
     }
     if (match.playedAt > todayInParis()) {
-      ctx.addIssue({ code: 'custom', path: ['playedAt'], message: 'La date ne peut pas être dans le futur' })
+      ctx.addIssue({
+        code: 'custom',
+        path: ['playedAt'],
+        message: 'La date ne peut pas être dans le futur',
+      })
     }
   })
 

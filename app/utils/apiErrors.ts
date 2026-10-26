@@ -17,6 +17,9 @@ export function getFieldErrors(error: unknown): Record<string, string> {
   return result
 }
 
-export function getErrorMessage(error: unknown, fallback = 'Une erreur est survenue, réessaie.'): string {
+export function getErrorMessage(
+  error: unknown,
+  fallback = 'Une erreur est survenue, réessaie.',
+): string {
   return errorBody(error)?.message ?? fallback
 }

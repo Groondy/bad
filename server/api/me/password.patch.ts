@@ -7,7 +7,11 @@ export default defineEventHandler(async (event) => {
   const hash = getPasswordHash(db, actor.id)
   if (!hash || !(await verifyPassword(hash, currentPassword))) {
     const message = 'Mot de passe actuel incorrect'
-    throw createError({ statusCode: 400, message, data: { fieldErrors: { currentPassword: [message] } } })
+    throw createError({
+      statusCode: 400,
+      message,
+      data: { fieldErrors: { currentPassword: [message] } },
+    })
   }
   const newHash = await hashPassword(newPassword)
   runService(() => setPassword(db, actor.id, newHash))

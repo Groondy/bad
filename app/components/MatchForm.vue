@@ -66,8 +66,12 @@ function submit() {
   <form class="match-form" novalidate @submit.prevent="submit">
     <fieldset class="match-form__type">
       <legend>Type de match</legend>
-      <label class="match-form__choice"><input v-model="type" type="radio" value="single" /> Simple</label>
-      <label class="match-form__choice"><input v-model="type" type="radio" value="double" /> Double</label>
+      <label class="match-form__choice"
+        ><input v-model="type" type="radio" value="single" /> Simple</label
+      >
+      <label class="match-form__choice"
+        ><input v-model="type" type="radio" value="double" /> Double</label
+      >
     </fieldset>
 
     <div class="match-form__sides">

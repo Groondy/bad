@@ -27,10 +27,15 @@ describe('inscription et connexion', () => {
 
   it('crée un joueur avec le rôle player', () => {
     const user = registerUser(db, newUser, 'hash')
-    expect(user).toMatchObject({ firstName: 'Jean', lastName: 'Dupont', role: 'player', groupId: 1 })
+    expect(user).toMatchObject({
+      firstName: 'Jean',
+      lastName: 'Dupont',
+      role: 'player',
+      groupId: 1,
+    })
   })
 
-  it("donne le rôle admin à ADMIN_EMAIL sans tenir compte de la casse ni des espaces", () => {
+  it('donne le rôle admin à ADMIN_EMAIL sans tenir compte de la casse ni des espaces', () => {
     expect(registerUser(db, newUser, 'hash', ' JEAN@Ecole.fr ').role).toBe('admin')
   })
 
@@ -41,7 +46,11 @@ describe('inscription et connexion', () => {
 
   it('refuse un email déjà utilisé, même avec une autre casse', () => {
     registerUser(db, newUser, 'hash')
-    expectServiceError(() => registerUser(db, { ...newUser, email: 'JEAN@ecole.fr' }, 'hash'), 409, 'email')
+    expectServiceError(
+      () => registerUser(db, { ...newUser, email: 'JEAN@ecole.fr' }, 'hash'),
+      409,
+      'email',
+    )
   })
 
   it('refuse un groupe inconnu', () => {
@@ -81,7 +90,11 @@ describe('profil', () => {
   it('refuse un groupe inconnu', () => {
     const db = createTestDb()
     const id = insertUser(db)
-    expectServiceError(() => updateProfile(db, id, { firstName: 'A', lastName: 'B', groupId: 99 }), 400, 'groupId')
+    expectServiceError(
+      () => updateProfile(db, id, { firstName: 'A', lastName: 'B', groupId: 99 }),
+      400,
+      'groupId',
+    )
   })
 
   it("refuse de changer le mot de passe d'un compte supprimé", () => {
@@ -119,10 +132,17 @@ describe('administration des joueurs', () => {
     insertMatch(db, { sideA: [playerId], sideB: [other], scoreA: 21, scoreB: 10 })
     anonymizeUser(db, adminId, playerId)
     const row = db.select().from(users).where(eq(users.id, playerId)).get()
-    expect(row).toMatchObject({ firstName: 'Joueur', lastName: 'supprimé', passwordHash: null, role: 'player' })
+    expect(row).toMatchObject({
+      firstName: 'Joueur',
+      lastName: 'supprimé',
+      passwordHash: null,
+      role: 'player',
+    })
     expect(row?.email).not.toContain('@ecole.fr')
     expect(row?.deletedAt).not.toBeNull()
-    expect(db.select().from(matchPlayers).where(eq(matchPlayers.userId, playerId)).all()).toHaveLength(1)
+    expect(
+      db.select().from(matchPlayers).where(eq(matchPlayers.userId, playerId)).all(),
+    ).toHaveLength(1)
   })
 
   it('renvoie 404 pour un compte déjà supprimé', () => {

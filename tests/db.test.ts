@@ -7,7 +7,13 @@ import { createTestDb, insertUser } from './helpers/db'
 describe('base de données', () => {
   it('applique les migrations et crée les deux groupes', () => {
     const db = createTestDb()
-    expect(db.select().from(groups).all().map((g) => g.name)).toEqual(['Groupe 1', 'Groupe 2'])
+    expect(
+      db
+        .select()
+        .from(groups)
+        .all()
+        .map((g) => g.name),
+    ).toEqual(['Groupe 1', 'Groupe 2'])
   })
 
   it('ne recrée pas les groupes si le seed est relancé', () => {
