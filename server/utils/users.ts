@@ -140,6 +140,17 @@ export function anonymizeUser(db: Db, actorId: number, targetId: number): void {
 
 /** Anonymise le compte en conservant ses matchs, pour ne pas fausser l'Elo des autres joueurs. */
 export function anonymizeAccount(db: Db, targetId: number): void {
+  const admins = db
+    .select({ id: users.id })
+    .from(users)
+    .where(and(eq(users.role, 'admin'), isNull(users.deletedAt)))
+    .all()
+  if (admins.length === 1 && admins[0]?.id === targetId) {
+    throw new ServiceError(
+      400,
+      'Tu es le dernier admin : nomme un autre admin avant de supprimer ton compte',
+    )
+  }
   const row = db
     .update(users)
     .set({

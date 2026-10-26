@@ -98,12 +98,22 @@ describe('profil', () => {
     )
   })
 
-  it('supprime son propre compte, y compris un admin', () => {
+  it('supprime son propre compte, y compris un admin s’il en reste un autre', () => {
     const db = createTestDb()
     const id = insertUser(db, { role: 'admin' })
+    insertUser(db, { role: 'admin' })
     anonymizeAccount(db, id)
     expect(getActiveUser(db, id)).toBeUndefined()
     expectServiceError(() => anonymizeAccount(db, id), 404)
+  })
+
+  it('refuse la suppression du dernier admin', () => {
+    const db = createTestDb()
+    const id = insertUser(db, { role: 'admin' })
+    insertUser(db, { role: 'admin', deletedAt: new Date() })
+    insertUser(db)
+    expectServiceError(() => anonymizeAccount(db, id), 400)
+    expect(getActiveUser(db, id)).toBeDefined()
   })
 
   it("refuse de changer le mot de passe d'un compte supprimé", () => {
