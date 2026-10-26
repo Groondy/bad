@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "typecheck": "nuxt typecheck",
     "test": "vitest run",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "db:seed": "nuxi task run db:seed"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",

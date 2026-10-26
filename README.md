@@ -22,6 +22,7 @@ TypeScript est épinglé en `^6` : TypeScript 7 casse actuellement typescript-es
 | `pnpm lint` / `pnpm format` | ESLint / Prettier                                                      |
 | `pnpm typecheck`            | Vérification TypeScript                                                |
 | `pnpm db:generate`          | Génère une migration après modification de `server/database/schema.ts` |
+| `pnpm db:seed`              | Ajoute des joueurs et matchs de démo (nécessite `pnpm dev` lancé)      |
 
 ## Variables d'environnement
 

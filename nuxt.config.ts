@@ -3,6 +3,8 @@ export default defineNuxtConfig({
   modules: ['nuxt-auth-utils', '@nuxt/eslint'],
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
+  // Tâches Nitro (pnpm db:seed), exécutables seulement via le serveur de dev
+  nitro: { experimental: { tasks: true } },
   vite: {
     css: {
       preprocessorOptions: {
