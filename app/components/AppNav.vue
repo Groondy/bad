@@ -11,7 +11,9 @@ async function logout() {
 <template>
   <header class="topbar">
     <div class="topbar__inner">
-      <NuxtLink to="/" class="topbar__brand">🏸 Bad Elo</NuxtLink>
+      <NuxtLink to="/" class="topbar__brand"
+        >BAD <span class="topbar__brand-accent">ELO</span></NuxtLink
+      >
       <nav class="topbar__links" aria-label="Navigation principale">
         <NuxtLink to="/" class="topbar__link topbar__link--desktop">Classement</NuxtLink>
         <template v-if="loggedIn">
@@ -49,8 +51,7 @@ async function logout() {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: $color-surface;
-  border-bottom: 1px solid $color-border;
+  background: $color-primary;
 }
 
 .topbar__inner {
@@ -63,9 +64,16 @@ async function logout() {
 }
 
 .topbar__brand {
-  font-weight: 800;
-  color: $color-text;
+  font-family: $font-display;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: $color-on-primary;
   text-decoration: none;
+}
+
+.topbar__brand-accent {
+  color: $color-accent;
 }
 
 .topbar__links {
@@ -75,17 +83,18 @@ async function logout() {
 }
 
 .topbar__link {
-  padding: 0;
+  padding: $space-1 0;
   font: inherit;
-  color: $color-text;
+  font-weight: 600;
+  color: $color-on-primary;
   text-decoration: none;
   background: none;
   border: 0;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
 
   &.router-link-exact-active {
-    color: $color-primary;
-    font-weight: 700;
+    border-bottom-color: $color-accent;
   }
 }
 
@@ -98,7 +107,7 @@ async function logout() {
 }
 
 .topbar__logout {
-  color: $color-muted;
+  font-weight: 400;
 }
 
 .tabbar {
@@ -122,23 +131,28 @@ async function logout() {
   flex: 1;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-family: $font-display;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   color: $color-muted;
   text-decoration: none;
 
   &.router-link-exact-active {
     color: $color-primary;
+    box-shadow: inset 0 3px 0 $color-accent;
   }
 
   &--cta {
     margin: $space-2;
-    color: #fff;
-    background: $color-primary;
+    color: $color-primary;
+    background: $color-accent;
     border-radius: $radius;
 
     &.router-link-exact-active {
-      color: #fff;
-      background: $color-primary;
+      background: $color-accent-dark;
+      box-shadow: none;
     }
   }
 }

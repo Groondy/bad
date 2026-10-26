@@ -17,8 +17,8 @@ const { data: rows, status } = await useFetch<RankingRow[]>('/api/ranking', {
     <div class="filters" role="group" aria-label="Filtrer par groupe">
       <button
         type="button"
-        class="btn"
-        :class="{ 'btn--primary': selectedGroup === undefined }"
+        class="pill"
+        :class="{ 'pill--active': selectedGroup === undefined }"
         @click="selectedGroup = undefined"
       >
         Tous
@@ -27,8 +27,8 @@ const { data: rows, status } = await useFetch<RankingRow[]>('/api/ranking', {
         v-for="group in groups"
         :key="group.id"
         type="button"
-        class="btn"
-        :class="{ 'btn--primary': selectedGroup === group.id }"
+        class="pill"
+        :class="{ 'pill--active': selectedGroup === group.id }"
         @click="selectedGroup = group.id"
       >
         {{ group.name }}
