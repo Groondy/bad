@@ -19,6 +19,7 @@ TypeScript est épinglé en `^6` : TypeScript 7 casse actuellement typescript-es
 | Commande                    | Rôle                                                                   |
 | --------------------------- | ---------------------------------------------------------------------- |
 | `pnpm test`                 | Tests Vitest (Elo, recalcul, services)                                 |
+| `pnpm test:api`             | Tests des routes API sur un serveur Nuxt construit (~15 s)             |
 | `pnpm lint` / `pnpm format` | ESLint / Prettier                                                      |
 | `pnpm typecheck`            | Vérification TypeScript                                                |
 | `pnpm db:generate`          | Génère une migration après modification de `server/database/schema.ts` |

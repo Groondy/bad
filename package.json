@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "typecheck": "nuxt typecheck",
     "test": "vitest run",
+    "test:api": "vitest run --config vitest.api.config.ts",
     "db:generate": "drizzle-kit generate",
     "db:seed": "nuxi task run db:seed"
   },
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
+    "@nuxt/test-utils": "^4.3.4",
     "@types/better-sqlite3": "^9.6.0",
     "drizzle-kit": "^0.31.11",
     "eslint": "^10.13.0",
