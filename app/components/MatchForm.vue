@@ -31,7 +31,9 @@ const localError = ref('')
 const isDouble = computed(() => type.value === 'double')
 const isLocked = computed(() => props.lockedPlayerId !== undefined)
 const selectedIds = computed(() =>
-  [a1.value, a2.value, b1.value, b2.value].filter((id): id is number => id !== undefined),
+  (isDouble.value ? [a1.value, a2.value, b1.value, b2.value] : [a1.value, b1.value]).filter(
+    (id): id is number => id !== undefined,
+  ),
 )
 const sideError = computed(() => props.errors?.sideA ?? props.errors?.sideB)
 
