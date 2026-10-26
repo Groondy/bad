@@ -1,17 +1,57 @@
-# Template Claude Code — sites Vue/Nuxt
+# Bad Elo — classement du club de badminton
 
-Dossier de base à copier dans chaque nouveau projet Vue/Nuxt/SCSS/pnpm.
+Site où les membres du club s'inscrivent, saisissent leurs matchs (simple ou double, un set) et suivent un classement Elo commun, filtrable par séance.
 
-## Utilisation
+Spec : `docs/superpowers/specs/2026-10-26-classement-elo-design.md`
 
-1. Copier `CLAUDE.md` et `.claude/` à la racine du nouveau projet.
-2. Adapter `CLAUDE.md` si le projet a des spécificités (TypeScript ou non, librairies utilisées, etc.).
-3. Compléter au fil du projet : ajouter des sections au `CLAUDE.md`, ou de nouvelles skills dans `.claude/skills/` (ex. une skill pour une API interne, un CMS headless, etc.).
+## Développement
 
-## Contenu
+```bash
+cp .env.example .env    # renseigner ADMIN_EMAIL
+pnpm install
+pnpm dev                # http://localhost:3000
+```
 
-- `CLAUDE.md` — contexte stack + conventions de code, à charger automatiquement par Claude Code.
-- `.claude/skills/deploy-docker/` — skill + fichier de référence (Dockerfile multi-stage) pour conteneuriser le site.
-- `.claude/skills/vue/`, `.claude/skills/nuxt/`, `.claude/skills/pnpm/` — conventions Vue 3 / Nuxt / pnpm.
+Le compte qui s'inscrit avec `ADMIN_EMAIL` devient admin. Il peut ensuite promouvoir d'autres joueurs.
 
-Volontairement minimal pour l'instant : pas de skill de test ni de librairie UI imposée, à ajouter projet par projet selon le besoin réel.
+TypeScript est épinglé en `^6` : TypeScript 7 casse actuellement typescript-eslint et vue-tsc.
+
+| Commande | Rôle |
+|---|---|
+| `pnpm test` | Tests Vitest (Elo, recalcul, services) |
+| `pnpm lint` / `pnpm format` | ESLint / Prettier |
+| `pnpm typecheck` | Vérification TypeScript |
+| `pnpm db:generate` | Génère une migration après modification de `server/database/schema.ts` |
+
+## Variables d'environnement
+
+| Variable | Rôle |
+|---|---|
+| `NUXT_SESSION_PASSWORD` | Secret des sessions, 32 caractères minimum (obligatoire en production) |
+| `ADMIN_EMAIL` | Email du premier admin |
+| `DATABASE_PATH` | Fichier SQLite (`data/bad.db` en dev, `/data/bad.db` dans l'image) |
+
+## Docker
+
+```bash
+docker build -t bad-elo .
+docker run -d --name bad-elo \
+  -e NUXT_SESSION_PASSWORD=<secret de 32+ caractères> \
+  -e ADMIN_EMAIL=<email admin> \
+  -v bad-elo-data:/data \
+  bad-elo
+```
+
+Le conteneur écoute sur le port 3000. L'exposition (reverse proxy, mapping de port) dépend de l'hébergement. Les migrations sont appliquées automatiquement au démarrage.
+
+## Sauvegarde
+
+Toutes les données tiennent dans un seul fichier, `/data/bad.db`. Pour une copie cohérente, arrêter brièvement le conteneur :
+
+```bash
+docker stop bad-elo
+docker run --rm -v bad-elo-data:/data -v "$PWD":/backup alpine cp /data/bad.db /backup/bad-$(date +%F).db
+docker start bad-elo
+```
+
+Pour restaurer : arrêter le conteneur, recopier le fichier dans le volume sous le nom `bad.db`, redémarrer.
