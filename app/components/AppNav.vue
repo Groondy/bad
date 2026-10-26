@@ -138,7 +138,7 @@ async function logout() {
 
     &.router-link-exact-active {
       color: #fff;
-      background: $color-primary-dark;
+      background: $color-primary;
     }
   }
 }

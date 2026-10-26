@@ -31,7 +31,7 @@ Fichiers : `app/assets/scss/_variables.scss`, `_mixins.scss`, `main.scss`.
 | Variable | Valeur | Usage |
 |---|---|---|
 | `$color-primary` | `#0B1F3A` (marine) | Barre du haut, titres, texte fort, liens |
-| `$color-primary-dark` | `#06142A` | Survol des éléments marine |
+| `$color-on-primary` | `#FFFFFF` | Texte sur fond marine (liens de la barre du haut) |
 | `$color-accent` | `#C6F432` (vert-jaune volant) | Bouton primaire, onglet actif, pastille « Saisir », logo |
 | `$color-accent-dark` | `#B2DE1F` | Survol de l'accent |
 | `$color-bg` | `#F4F6F9` | Fond de page |

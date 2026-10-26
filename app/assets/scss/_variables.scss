@@ -1,16 +1,21 @@
-$color-primary: #0f766e;
-$color-primary-dark: #115e59;
-$color-bg: #f8fafc;
+$color-primary: #0b1f3a;
+$color-on-primary: #ffffff;
+$color-accent: #c6f432;
+$color-accent-dark: #b2de1f;
+$color-bg: #f4f6f9;
 $color-surface: #ffffff;
-$color-text: #0f172a;
-$color-muted: #64748b;
-$color-border: #e2e8f0;
-$color-success: #15803d;
-$color-success-bg: #f0fdf4;
+$color-text: #0b1f3a;
+$color-muted: #5b6577;
+$color-border: #e3e7ec;
+$color-success: #166534;
+$color-success-bg: #e7f6ec;
 $color-danger: #b91c1c;
-$color-danger-bg: #fef2f2;
+$color-danger-bg: #fdecec;
+$color-gold: #f5c542;
+$color-silver: #cfd6de;
+$color-bronze: #e0a46b;
 
-$radius: 8px;
+$radius: 10px;
 $space-1: 4px;
 $space-2: 8px;
 $space-3: 12px;
@@ -23,6 +28,10 @@ $font-family:
   -apple-system,
   'Segoe UI',
   Roboto,
+  sans-serif;
+$font-display:
+  'Barlow Condensed',
+  system-ui,
   sans-serif;
 $breakpoint-md: 768px;
 $tabbar-height: 64px;
