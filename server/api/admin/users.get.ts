@@ -1,1 +1,4 @@
-export default defineEventHandler(() => listUsersAdmin(useDb()))
+export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
+  return listUsersAdmin(useDb())
+})

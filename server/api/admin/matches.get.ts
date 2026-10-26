@@ -1,1 +1,4 @@
-export default defineEventHandler(() => listMatchViews(useDb()))
+export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
+  return listMatchViews(useDb())
+})

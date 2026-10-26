@@ -1,6 +1,7 @@
 import { matchInputSchema } from '#shared/schemas'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const id = parseId(event)
   const input = await parseBody(event, matchInputSchema)
   const db = useDb()

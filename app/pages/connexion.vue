@@ -11,7 +11,7 @@ const pending = ref(false)
 
 function safeRedirect(): string {
   const target = route.query.redirect
-  return typeof target === 'string' && target.startsWith('/') && !target.startsWith('//') ? target : '/'
+  return typeof target === 'string' && target.startsWith('/') && !target.startsWith('//') && !target.includes('\\') ? target : '/'
 }
 
 async function submit() {
