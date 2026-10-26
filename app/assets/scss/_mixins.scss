@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+@mixin md-up {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin card {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  padding: $space-4;
+}

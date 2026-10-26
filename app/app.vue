@@ -1,5 +1,5 @@
 <template>
-  <main>
-    <h1>Bad Elo</h1>
-  </main>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
