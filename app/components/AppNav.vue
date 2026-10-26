@@ -52,6 +52,11 @@ async function logout() {
   top: 0;
   z-index: 10;
   background: $color-primary;
+
+  // Contour blanc : le marine par défaut disparaît sur la barre
+  :focus-visible {
+    outline-color: $color-on-primary;
+  }
 }
 
 .topbar__inner {
@@ -83,6 +88,9 @@ async function logout() {
 }
 
 .topbar__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: $space-1 0;
   font: inherit;
   font-weight: 600;
