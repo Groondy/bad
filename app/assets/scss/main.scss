@@ -1,0 +1,232 @@
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-700-normal.woff2') format('woff2');
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 1.5;
+  background: $color-bg;
+  color: $color-text;
+}
+
+a {
+  color: $color-primary;
+}
+
+h1,
+h2 {
+  font-family: $font-display;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: $color-primary;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0 0 $space-4;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin: $space-6 0 $space-3;
+}
+
+:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px $color-accent;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 44px;
+  padding: $space-2 $space-3;
+  font: inherit;
+  color: $color-text;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  font-weight: 700;
+  margin-bottom: $space-2;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: $space-4;
+}
+
+.card {
+  @include card;
+}
+
+.form {
+  display: grid;
+  gap: $space-4;
+  max-width: 440px;
+}
+
+.auth {
+  max-width: 440px;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 $space-4;
+  font: inherit;
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $color-text;
+  text-decoration: none;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    color: $color-primary;
+    background: $color-accent;
+    border-color: $color-accent;
+
+    &:hover:not(:disabled) {
+      background: $color-accent-dark;
+      border-color: $color-accent-dark;
+    }
+  }
+
+  &--danger {
+    color: $color-danger;
+    border-color: $color-danger;
+
+    &:hover:not(:disabled) {
+      background: $color-danger-bg;
+      border-color: $color-danger;
+    }
+  }
+
+  &--block {
+    width: 100%;
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 $space-4;
+  font: inherit;
+  font-weight: 600;
+  color: $color-text;
+  text-decoration: none;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &--active,
+  &.router-link-exact-active {
+    color: $color-accent;
+    background: $color-primary;
+    border-color: $color-primary;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-4;
+}
+
+.alert {
+  padding: $space-3;
+  color: $color-danger;
+  background: $color-danger-bg;
+  border-radius: $radius;
+}
+
+.success {
+  padding: $space-3;
+  color: $color-success;
+  background: $color-success-bg;
+  border-radius: $radius;
+}
+
+.muted {
+  color: $color-muted;
+}
+
+.delta--up,
+.delta--down {
+  display: inline-block;
+  padding: 0 $space-2;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+}
+
+.delta--up {
+  color: $color-success;
+  background: $color-success-bg;
+}
+
+.delta--down {
+  color: $color-danger;
+  background: $color-danger-bg;
+}
