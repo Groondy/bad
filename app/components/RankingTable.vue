@@ -29,7 +29,7 @@ defineProps<{
               {{ row.rank }}
             </span>
           </td>
-          <td>
+          <td class="ranking__name">
             <NuxtLink :to="`/joueurs/${row.id}`">{{ row.firstName }} {{ row.lastName }}</NuxtLink>
           </td>
           <td class="ranking__optional">{{ row.groupName }}</td>
@@ -71,6 +71,10 @@ tbody tr:last-child td {
 
 .ranking__rank {
   width: 3rem;
+}
+
+.ranking__name {
+  overflow-wrap: anywhere;
 }
 
 .ranking__medal {
