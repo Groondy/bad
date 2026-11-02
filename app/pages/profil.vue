@@ -83,7 +83,7 @@ async function deleteAccount() {
 </script>
 
 <template>
-  <section>
+  <section class="profile">
     <h1>Mon profil</h1>
     <p v-if="user">
       <NuxtLink :to="`/joueurs/${user.id}`">Voir mon historique et mon Elo</NuxtLink>
@@ -153,3 +153,10 @@ async function deleteAccount() {
     </form>
   </section>
 </template>
+
+<style scoped lang="scss">
+.profile {
+  max-width: 440px;
+  margin: 0 auto;
+}
+</style>
